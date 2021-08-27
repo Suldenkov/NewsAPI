@@ -1,10 +1,15 @@
 const   btn = document.querySelector('#btn');
         list = document.querySelector('.container');
         category = document.querySelector('.category');
-        language = document.querySelector('.language');
         country = document.querySelector('.country');
         apiKey = '4dd10ac3b26049f8b53ffbd4d98c419f';
         URL = `https://newsapi.org/v2/top-headlines`;
+        categoryes = ['general', 'business', 'entertainment', 'health', 'science', 'sports', 'technology'];
+        countries = {
+            'us': 'United State', 'ru' : 'Russia', 'fr' : 'French', 'ae': 'United Arab Emirates', 'ar' : 'Argentina', 'at' : 'Austria',
+            'au' : 'Australia', 'be' : 'Belgium', 'bg' : 'Bulgaria', 'br' : 'Brazil', 'ca' : 'Canada', 'ch' : 'Switzerland', 'cn' : 'China', 'cu' : 'Cuba',
+            'cz' : 'Czech Republic', 'de' : 'Germany', 'eg' : 'Egypt', 'gb' : 'United Kingdom', 'gr' : 'Greece'
+        };
 
 let     showCategory = 'business';
         showCountry = 'us';
@@ -46,6 +51,28 @@ async function getNews()
     }
 }
 
+const init = () =>{
+    const fragment = document.createDocumentFragment();
+
+    categoryes.forEach((element) =>{
+        const option = document.createElement('option');
+        option.value = element;
+        option.textContent = element[0].toUpperCase() + element.slice(1);
+        fragment.appendChild(option);
+    })
+    category.appendChild(fragment);
+
+    Object.keys(countries).forEach((element) => {
+        const option = document.createElement('option');
+        option.value = element;
+        option.textContent = countries[element];
+        fragment.appendChild(option);
+    })
+    country.appendChild(fragment);
+}
+
+init();
+
 category.addEventListener('change', (e) => {
     showCategory = e.target.value;
     window.scrollTo(0, 0)
@@ -57,5 +84,6 @@ country.addEventListener('change', (e) => {
     window.scrollTo(0, 0);
     getNews();
 })
+
 
 getNews();
